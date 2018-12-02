@@ -1,0 +1,4 @@
+source /Users/luzixu/Documents/Git/MySQL-Experiment/EXP4/create.sql
+source /Users/luzixu/Documents/Git/MySQL-Experiment/EXP4/insert.sql
+pager cat >> /Users/luzixu/Documents/Git/MySQL-Experiment/EXP4/out
+source /Users/luzixu/Documents/Git/MySQL-Experiment/EXP4/work.sql
