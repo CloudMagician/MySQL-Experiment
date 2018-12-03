@@ -18,8 +18,7 @@ limit 6 ;
 
 
 -- 5th
-SELECT '课程编码'=CouNo,'课程名称'=CouName,'教师'=Teacher,'上课时间'=SchoolTime,
-'限制选课人数'=LimitNum,'报名人数'=WillNum
+SELECT CouNo,CouName,Teacher,SchoolTime,LimitNum,WillNum
 FROM  Course;
 
 -- 6th
@@ -39,7 +38,7 @@ SELECT *,WillNum/LimitNum
 FROM Course;
 
 -- 9th
-SELECT '最小的报名人数'=MIN(WillNum),'最大的报名人数'=MAX(WillNum),'平均报名人数'=AVG(WillNum)
+SELECT MIN(WillNum),MAX(WillNum),AVG(WillNum)
 FROM Course;
 
 -- 10th
@@ -81,7 +80,7 @@ WHERE StuName LIKE '_宝%';
 --17th
 SELECT *
 FROM Student
-WHERE StuName LIKE '[^刘]%';
+WHERE StuName NOT LIKE '刘%';
 
 --18th
 SELECT *
@@ -117,10 +116,15 @@ GROUP BY Kind
 HAVING Kind='信息技术';
 
 --24th
-SELECT Kind AS '课程类别',AVG(WillNum) AS '每类平均报名人数'
+SELECT CouName,Kind AS '课程类别',AVG(WillNum) AS '每类平均报名人数'
 FROM Course
-WHERE Kind='信息技术'
 GROUP BY Kind
+
+SELECT *
+FROM Course,(SELECT Kind,AVG(WillNum) AS avg FROM Course GROUP BY Kind) AS A
+WHERE Course.Kind = A.Kind;
+
+
 
 -- 25th
 SELECT Course.Kind,AVG(Course.WillNum)
@@ -136,8 +140,13 @@ WHERE Course.Kind='信息技术'
 SELECT Course.CouName ,AVG(Course.WillNum) as avg
 FROM Course
 GROUP BY Course.Kind
-HAVING avg_c > 25
+HAVING avg > 25
 
+
+SELECT distinct Course.Kind ,A.avg
+FROM Course,(SELECT Kind,AVG(WillNum) AS avg FROM Course GROUP BY Kind) AS A
+WHERE Course.Kind = A.Kind
+AND A.avg > 25;
 -- 28th
 SELECT *
 FROM Course 
@@ -154,7 +163,7 @@ SELECT DepartName FROM Department;
 
 -- 30th
 
-SELECT ClassName AS '所有班名和所有系名' FROM Class
+SELECT ClassName FROM Class
 UNION
 SELECT DepartName FROM Department
 ORDER BY ClassName DESC
@@ -169,7 +178,7 @@ WHERE Class.DepartNo=Department.DepartNo;
 -- 32nd
  SELECT Student.*,Class.ClassName
 FROM Student,Class
-WHERE STUDENT.ClassNo=Class.ClassNo;
+WHERE Student.ClassNo=Class.ClassNo;
 
 -- 33rd
 
@@ -195,6 +204,9 @@ WHERE Course.DepartNo<>Class.DepartNo;
 
 
 
+SELECT Class.ClassName,Course.CouName,Course.Kind,Course.Credit,Course.Teacher,Course.SchoolTime,Course.WillNum
+FROM Class,Course
+WHERE Course.DepartNo<>Class.DepartNo;
 
 
 
