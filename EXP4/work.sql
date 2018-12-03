@@ -8,13 +8,13 @@ FROM Course;
 
 --3rd
 SELECT DISTINCT Kind
-FROM Course ;
+FROM Course;
 
 
 -- 4th
 SELECT *
 FROM Student
-limit 6 ;
+LIMIT 6;
 
 
 -- 5th
@@ -90,18 +90,18 @@ WHERE Teacher IS NULL;
 --19th
 SELECT *
 FROM Course
-WHERE WillNum<15 ;
+WHERE WillNum < 15;
 
 --20th
 SELECT *
 FROM Course
-WHERE WillNum>15 AND WillNum<25 ;
+WHERE WillNum > 15 AND WillNum < 25;
 
 --21st 
 SELECT *
 FROM Course
 WHERE WillNum BETWEEN 15 AND 25 
-ORDER BY WillNum DESC ;
+ORDER BY WillNum DESC;
 
 --22nd 多于25人！
 SELECT *
@@ -110,50 +110,45 @@ WHERE WillNum NOT BETWEEN 15 AND 25
 ORDER BY WillNum DESC ;
 
 --23rd
-SELECT Kind AS '课程类别',AVG(WillNum) AS '平均报名人数'
+SELECT Kind AS '课程类别', AVG(WillNum) AS '平均报名人数'
 FROM Course
 GROUP BY Kind
 HAVING Kind='信息技术';
 
 --24th
-SELECT CouName,Kind AS '课程类别',AVG(WillNum) AS '每类平均报名人数'
+-- 设置表时限制了分类。。不是很懂
+SELECT Kind AS '课程类别', AVG(WillNum) AS '每类平均报名人数'
 FROM Course
-GROUP BY Kind
-
-SELECT *
-FROM Course,(SELECT Kind,AVG(WillNum) AS avg FROM Course GROUP BY Kind) AS A
-WHERE Course.Kind = A.Kind;
-
-
+GROUP BY Kind;
 
 -- 25th
-SELECT Course.Kind,AVG(Course.WillNum)
+SELECT Course.Kind, AVG(Course.WillNum)
 FROM Course
-GROUP BY Course.Kind
+GROUP BY Course.Kind;
 
 -- 26th
 SELECT AVG(Course.WillNum)
 FROM Course
-WHERE Course.Kind='信息技术'
+WHERE Course.Kind='信息技术';
 
 -- 27th
-SELECT Course.CouName ,AVG(Course.WillNum) as avg
-FROM Course
-GROUP BY Course.Kind
-HAVING avg > 25
-
+--SELECT Course.CouName ,AVG(Course.WillNum) as avg
+--FROM Course
+--GROUP BY Course.Kind
+--HAVING avg > 25;
 
 SELECT distinct Course.Kind ,A.avg
 FROM Course,(SELECT Kind,AVG(WillNum) AS avg FROM Course GROUP BY Kind) AS A
 WHERE Course.Kind = A.Kind
 AND A.avg > 25;
+
 -- 28th
 SELECT *
 FROM Course 
 WHERE WillNum >(
      SELECT AVG(WillNum)
      FROM Course 
-    )
+);
 
 
 -- 29th
@@ -166,7 +161,7 @@ SELECT DepartName FROM Department;
 SELECT ClassName FROM Class
 UNION
 SELECT DepartName FROM Department
-ORDER BY ClassName DESC
+ORDER BY ClassName DESC;
 
 
 -- 31st
@@ -176,12 +171,11 @@ FROM Class,Department
 WHERE Class.DepartNo=Department.DepartNo;
 
 -- 32nd
- SELECT Student.*,Class.ClassName
+SELECT Student.*, Class.ClassName
 FROM Student,Class
-WHERE Student.ClassNo=Class.ClassNo;
+WHERE Student.ClassNo = Class.ClassNo;
 
 -- 33rd
-
 SELECT Student.StuName,Course.CouName,StuCou.CouNo
 FROM Student,Course,StuCou
 WHERE Student.StuNo=StuCou.StuNo AND Course.CouNo=StuCou.CouNo
@@ -195,21 +189,9 @@ WHERE StuCou.CouNo=Course.CouNo AND Student.StuNo =Student.StuNo AND Course.CouN
      SELECT Course.CouNo
      FROM Course,Department
      WHERE Course.DepartNo=Department.DepartNo AND Department.DepartName='计算机应用工程系'
-     )
-;
+);
+
 -- 35th
 SELECT Class.ClassName,Course.CouName,Course.Kind,Course.Credit,Course.Teacher,Course.SchoolTime,Course.WillNum
 FROM Class,Course
 WHERE Course.DepartNo<>Class.DepartNo;
-
-
-
-SELECT Class.ClassName,Course.CouName,Course.Kind,Course.Credit,Course.Teacher,Course.SchoolTime,Course.WillNum
-FROM Class,Course
-WHERE Course.DepartNo<>Class.DepartNo;
-
-
-
-
-
-
